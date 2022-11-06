@@ -1,0 +1,27 @@
+version: '2'
+services:
+  web-arnold:
+    image: php:apache
+    depends_on:
+      - api-arnold
+    ports:
+      - "8082:80"
+    volumes:
+      - ./website:/var/www/html
+    environment:
+      - USERNAME=toto
+      - PASSWORD=python
+    networks:
+      - api-arnold
+
+  api-arnold:
+    image: api-arnold:1
+    ports:
+      - "4000:5000"
+    volumes:
+      - ./simple_api/student_age.json:/data/student_age.json
+    networks:
+      - api-arnold
+
+networks:
+  api-arnold:
